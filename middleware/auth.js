@@ -1,4 +1,14 @@
+// Importerar jsonwebtoken-biblioteket
 import jwt from 'jsonwebtoken';
+
+// exporterar en authenticate funktion som ser till att användaren är inloggad
+// hämtar authorization-headern från requesten
+// om det inte finns någon auth-header skickas 401 unauthorized 
+// auth-header delas på mellanslag och hämtar själva token delen
+// försöker verifiera token med hemliga nycklen (JWT)
+// om verifiering lyckas läggs den dekodade användardatan till på request-objektet
+// next används för gå vidare till nästa middleware/route-handler
+// catch fångar om token är ogiltlig eller verifiering misslyckas och skickar tillbaka 401 unauthorized
 export const authenticate = (req, res, next) => {
     const header = req.headers.authorization;
 

@@ -1,4 +1,3 @@
-// swagger.js
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
@@ -12,7 +11,7 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:3000',
+                url: 'http://localhost:3000/api-docs/',
                 description: 'Utvecklingsserver',
             },
         ],

@@ -2,7 +2,7 @@ import express from 'express';
 import noteDb from '../models/noteModel.js';
 import { authenticate } from '../middleware/auth.js';
 
-const router = express.Router();
+const router = express.Router(); // Skapar en router för att hantera anteckningsrelaterade endpoints.
 
 /**
  * @swagger
@@ -25,11 +25,13 @@ const router = express.Router();
  */
 
 
-router.get('/', authenticate, async (req, res) => {
+router.get('/', authenticate, async (req, res) => { // Endpoint för att hämta alla anteckningar för den inloggade användaren.
+    // authenticate middleware används för att säkerställa att användaren är inloggad innan de kan hämta anteckningar.
     try {
-        const notes = await noteDb.find({ userId: req.user.id });
-        res.status(200).json(notes);
-    } catch (error) {
+        const notes = await noteDb.find({ userId: req.user.id }); // Hämtar anteckningar från databasen där userId matchar den inloggade användarens ID.
+        // req.user.id kommer från authenticate middleware, som lägger till användarens information i request-objektet.
+        res.status(200).json(notes); // Returnerar anteckningarna som JSON-svar.
+    } catch (error) { // Om ett fel uppstår under hämtningen av anteckningar, fångar vi det och returnerar ett 500-felmeddelande.
         res.status(500).json({ error: 'Kunde inte hämta anteckningar' });
     }
 });
@@ -65,11 +67,20 @@ router.get('/', authenticate, async (req, res) => {
  */
 
 
-router.post('/', authenticate, async (req, res) => {
-    const { title, text } = req.body;
+
+// definerar en POST-route för att skapa anteckningar
+// authenticate middleware körs
+// title och text plockas ut från request body
+// title och text valideras
+// en ny anteckninig skapas och sparas i databasen
+// när anteckningen sparats skickas den tillbaka till klienten med status 200 OK
+// om något går fel fångas felet och ett svar med status 500 skickas tillbaka
+router.post('/', authenticate, async (req, res) => { 
 
     if (!title || title.length > 50 || !text || text.length > 300) {
+        
         return res.status(400).json({ error: 'Ogiltig anteckning' });
+        // om något går fel fångas felet och ett svar med status 500 skickas tillbaka
     }
 
     try {
@@ -126,7 +137,13 @@ router.post('/', authenticate, async (req, res) => {
  *         description: Ej auktoriserad
  */
 
-
+// definerar en PUT-route för att uppdatera anteckningar
+// authenticate middleware körs
+// title och text plockas från req body och valideras
+// antecknings id plockas ut från URL-parametrarna
+// anteckning letas upp och om anteckning inte hittas returneras status 404 med ett meddelande
+// anteckningens data uppdateras, sparas i databasen och returnerar status 200 OK
+// catch fångar error och returnerar status 500
 router.put('/:id', authenticate, async (req, res) => {
     const { title, text } = req.body;
     const { id } = req.params;
@@ -173,7 +190,11 @@ router.put('/:id', authenticate, async (req, res) => {
  *         description: Ej auktoriserad
  */
 
-
+// definerar en DELETE-route för att radera anteckningar
+// authenticate middleware körs
+// id plockas ut från URL-parametrar
+// Letar upp anteckningen som ska raderas och kontrollerar att den tillhör rätt användare
+// anteckningen tas bort och returnerar status 200 OK
 router.delete('/:id', authenticate, async (req, res) => {
     const { id } = req.params;
 
@@ -219,7 +240,11 @@ router.delete('/:id', authenticate, async (req, res) => {
  *         description: Ej auktoriserad
  */
 
-
+// definerar en GET-route för att söka efter anteckningar
+// authenticate middleware körs
+// title hämtas från URL-parametrar
+// om title inte hittas returneras status 400 med meddelande
+// om title hittas returneras status 200 OK
 router.get('/search', authenticate, async (req, res) => {
     const { title } = req.query;
 
