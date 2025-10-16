@@ -5,7 +5,7 @@ dotenv.config({ override: true, quiet: true });
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import userDb from '../models/userModel.js';
+import userDb from '../models/UserModel.js';
 
 
 const PORT = process.env.PORT || 3000; // Porten som servern kommer att lyssna på, standard är 3000.
