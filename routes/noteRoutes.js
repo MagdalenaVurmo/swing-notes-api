@@ -1,5 +1,5 @@
 import express from 'express';
-import noteDb from '../models/noteModel.js';
+import noteDb from '../models/NoteModel.js';
 import { authenticate } from '../middleware/auth.js';
 
 const router = express.Router(); // Skapar en router för att hantera anteckningsrelaterade endpoints.
