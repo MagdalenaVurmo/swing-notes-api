@@ -9,12 +9,12 @@ const options = {
             version: '1.0.0',
             description: 'API för att skapa, läsa, uppdatera och radera anteckningar med JWT-autentisering',
         },
-        servers: [
-            {
-                url: 'http://localhost:3000/api-docs/',
-                description: 'Utvecklingsserver',
-            },
-        ],
+       servers: [
+    {
+        url: '/', 
+        description: 'Server (lokalt och på Render)',
+    },
+],
         components: {
             securitySchemes: {
                 bearerAuth: {

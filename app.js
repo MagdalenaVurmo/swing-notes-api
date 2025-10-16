@@ -36,6 +36,12 @@ app.use(express.json());
 app.use('/api/user', userRoutes); 
 app.use('/api/notes', noteRoutes); 
 
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
+setupSwagger(app);
+
 // En global felhanterare – fångar upp oväntade fel och skickar ett 500 Internal Server Error-svar
 app.use((err, req, res, next) => { 
    
@@ -46,8 +52,8 @@ app.use((err, req, res, next) => {
 // Startar servern och lyssnar på den angivna porten – visar ett meddelande i terminalen
 app.listen(PORT, () => { 
     console.log(`Server is running on port http://localhost:${PORT}`);
-    console.log(`Swagger UI körs på http://localhost:${PORT}/api-docs/`)
-    console.log('JWT_SECRET:', JWT_SECRET);
+    console.log(`Swagger UI körs på http://localhost:${PORT}/api-docs/`);
+
 
 });
 // Anropar funktionen som sätter upp Swagger UI för API-dokumentation på /api-docs
